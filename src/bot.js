@@ -518,8 +518,8 @@ if (message.content === '!help'){
         .setDescription('See this as an introduction of me')
         .addFields(
             {name:'!name of a peepo', value: 'I will describe the person from what I have heard,\nif I know them', inline: true},
-            {name:'!ily', value: 'Show your love to me!\nMy responses may vary tho', inline: true},
-            {name:'!avatar', value: 'I will upload your avatar', inline: true},
+            {name:'!rank', value: 'Your level based on your activities', inline: true},
+            {name:'!lb/leaderboard', value: 'ranks in the server', inline: true},
             {name:'-----', value: '-----', inline: false},
             {name:'!gif', value: 'I will send you a gif of myself,\nor what you want based on what you type after', inline: true},
             {name:'!playlist', value: 'I will send you my playlist', inline: true},
