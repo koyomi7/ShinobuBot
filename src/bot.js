@@ -6,23 +6,23 @@ const { readdirSync, read } = require('fs');
 const { join } = require('path');
 const welcome = require("./welcome");
 const fetch = require('node-fetch');
-//const mongoose = require('mongoose');
-//const Levels = require('discord-xp');
+const mongoose = require('mongoose');
+const Levels = require('discord-xp');
 const randomPuppy = require('random-puppy');
 const akaneko = require('akaneko');
 //const image = require('./image');
 
 const client = new Discord.Client();
 
-//mongoose.connect(process.env.MONGO_SRV,{
-    //useNewUrlParser: true,
-    //useUnifiedTopology: true,
-    //useFindAndModify: false
-//}).then(()=>{
-    //console.log('Connected to the database');
-//}).catch((err)=>{
-    //console.log(err);
-//});
+mongoose.connect(process.env.MONGO_SRV,{
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false
+}).then(()=>{
+    console.log('Connected to the database');
+}).catch((err)=>{
+    console.log(err);
+});
 
 client.commands = new Discord.Collection();
 const PREFIX = "!";
@@ -802,38 +802,38 @@ async function gotMessage(msg) {
  }
 };
 
-//Levels.setURL(process.env.MONGO_SRV)
-//client.on("message", async message => {
-    //Levels.setLevel("296502875587215361", "850584649041575956", 777);
-    //Levels.setLevel("296502875587215361", "519089447380320256", 777);
+Levels.setURL(process.env.MONGO_SRV)
+client.on("message", async message => {
+    Levels.setLevel("296502875587215361", "850584649041575956", 777);
+    Levels.setLevel("296502875587215361", "519089447380320256", 777);
 
-    //if (!message.guild) return;
-    //if (message.author.bot) return;
+    if (!message.guild) return;
+    if (message.author.bot) return;
 
-    //const args = message.content.slice(PREFIX.length).trim().split(/ +/g);
-    //const command = args.shift().toLowerCase();
+    const args = message.content.slice(PREFIX.length).trim().split(/ +/g);
+    const command = args.shift().toLowerCase();
 
-    //const randomXp = Math.floor(Math.random() * 9) + 1;
-    //const hasLeveledUp = await Levels.appendXp(message.author.id, message.guild.id, randomXp);
-    //if (hasLeveledUp) {
-        //const user = await Levels.fetch(message.author.id, message.guild.id);
-        //message.channel.send(`Yo, you leveled up to ${user.level}! Keep it going!`);
-    //}
+    const randomXp = Math.floor(Math.random() * 9) + 1;
+    const hasLeveledUp = await Levels.appendXp(message.author.id, message.guild.id, randomXp);
+    if (hasLeveledUp) {
+        const user = await Levels.fetch(message.author.id, message.guild.id);
+        message.channel.send(`Yo, you leveled up to ${user.level}! Keep it going!`);
+    }
     
-    //if(command === "rank") {
-        //const user = await Levels.fetch(message.author.id, message.guild.id);
-        //message.channel.send(`You are currently level **${user.level}**!`)
-    //}
+    if(command === "rank") {
+        const user = await Levels.fetch(message.author.id, message.guild.id);
+        message.channel.send(`You are currently level **${user.level}**!`)
+    }
     
-    //if(command === "leaderboard" || command === "lb") {
-        //const rawLeaderboard = await Levels.fetchLeaderboard(message.guild.id, 5); 
+    if(command === "leaderboard" || command === "lb") {
+        const rawLeaderboard = await Levels.fetchLeaderboard(message.guild.id, 5); 
 
-    //if (rawLeaderboard.length < 1) return reply("Nobody's in leaderboard yet.");
+    if (rawLeaderboard.length < 1) return reply("Nobody's in leaderboard yet.");
 
-        //const leaderboard = await Levels.computeLeaderboard(client, rawLeaderboard, true); 
+        const leaderboard = await Levels.computeLeaderboard(client, rawLeaderboard, true); 
 
-        //const lb = leaderboard.map(e => `${e.position}. ${e.username}#${e.discriminator}\nLevel: ${e.level}\nXP: ${e.xp.toLocaleString()}`);
+        const lb = leaderboard.map(e => `${e.position}. ${e.username}#${e.discriminator}\nLevel: ${e.level}\nXP: ${e.xp.toLocaleString()}`);
 
-       // message.channel.send(`**Leaderboard**:\n\n${lb.join("\n\n")}`);
-    //}
-//})
+        message.channel.send(`**Leaderboard**:\n\n${lb.join("\n\n")}`);
+    }
+})
