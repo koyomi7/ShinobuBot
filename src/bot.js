@@ -14,15 +14,15 @@ const akaneko = require('akaneko');
 
 const client = new Discord.Client();
 
-mongoose.connect(process.env.MONGO_SRV,{
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false
-}).then(()=>{
-    console.log('Connected to the database');
-}).catch((err)=>{
-    console.log(err);
-});
+//mongoose.connect(process.env.MONGO_SRV,{
+    //useNewUrlParser: true,
+    //useUnifiedTopology: true,
+    //useFindAndModify: false
+//}).then(()=>{
+    //console.log('Connected to the database');
+//}).catch((err)=>{
+    //console.log(err);
+//});
 
 client.commands = new Discord.Collection();
 const PREFIX = "!";
