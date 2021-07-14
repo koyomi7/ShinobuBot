@@ -657,6 +657,10 @@ else if(message.content === '!luna'){
         message.reply(`She's a smooth killa`)
     }
 }
+else if(message.content === '!raymin'){
+    message.channel.send("LEAVE THE WOMEN ALONE AND GET ON <@408825546852794369>");
+    message.channel.send("https://tenor.com/view/xqc-sex-penis-funny-awesome-shaking-gif-16660244");
+}
 else if(message.content === '!eddy'){
     message.reply('I do not know this guy very well I will keep it on a stack, he sounds legit tho.');
 }
