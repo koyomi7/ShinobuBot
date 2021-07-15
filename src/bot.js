@@ -580,36 +580,36 @@ else if (message.content === '!hentaihelp'){
         .setImage("https://i.imgur.com/wEW6Phc.jpeg");
     message.channel.send(embed);
 }
-else if (message.content.includes('-p')){
+else if (message.content.includes('-p ')||message.content.includes('!p ')||message.content.includes(';;')){
     if(message.author.bot) return;
-    if (message.channel.id === "625114609279303730"||message.channel.id === "762376934138445824"){
+    if (message.channel.id === "625114609279303730"||message.channel.id === "762376934138445824"||message.channel.id === "574754006895689778"){
         return;
     }
     else{
         message.reply('GO TO THE MUSIC CHANNEL FOR THIS SHIT YOU FUCKING DONUT');
     }
 }
-else if (message.content.includes('-P')){
+else if (message.content.includes('-P ')||message.content.includes('!P ')){
     if(message.author.bot) return;
-    if (message.channel.id === "625114609279303730"||message.channel.id === "762376934138445824"){
+    if (message.channel.id === "625114609279303730"||message.channel.id === "762376934138445824"||message.channel.id === "574754006895689778"){
         return;
     }
     else{
         message.reply('GO TO THE MUSIC CHANNEL FOR THIS SHIT YOU FUCKING DONUT');
     }
 }
-else if (message.content.includes('-play')){
+else if (message.content.includes('-play ')||message.content.includes('!play ')){
     if(message.author.bot) return;
-    if (message.channel.id === "625114609279303730"||message.channel.id === "762376934138445824"){
+    if (message.channel.id === "625114609279303730"||message.channel.id === "762376934138445824"||message.channel.id === "574754006895689778"){
         return;
     }
     else{
         message.reply('GO TO THE MUSIC CHANNEL FOR THIS SHIT YOU FUCKING DONUT');
     }
 }
-else if (message.content.includes('-PLAY')){
+else if (message.content.includes('-PLAY ')||message.content.includes('!PLAY ')){
     if(message.author.bot) return;
-    if (message.channel.id === "625114609279303730"||message.channel.id === "762376934138445824"){
+    if (message.channel.id === "625114609279303730"||message.channel.id === "762376934138445824"||message.channel.id === "574754006895689778"){
         return;
     }
     else{
