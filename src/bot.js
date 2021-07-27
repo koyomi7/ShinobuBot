@@ -10,9 +10,11 @@ const mongoose = require('mongoose');
 const Levels = require('discord-xp');
 const randomPuppy = require('random-puppy');
 const akaneko = require('akaneko');
+const DisTube = require('distube');
 //const image = require('./image');
 
 const client = new Discord.Client();
+const distube = new DisTube(client, { searchSongs: true, emitNewSongOnly: true });
 
 mongoose.connect(process.env.MONGO_SRV,{
     useNewUrlParser: true,
@@ -26,6 +28,7 @@ mongoose.connect(process.env.MONGO_SRV,{
 
 client.commands = new Discord.Collection();
 const PREFIX = "!";
+const PREFIX1 = ".";
 const commandFiles = readdirSync(join(__dirname, "commands")).filter(file => file.endsWith(".js"));
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
@@ -49,7 +52,70 @@ client.on("message", async message => {
     }
 })
 
-client.on('message', async (message) => {
+client.on("message", async (message) => {
+    if (message.author.bot) return;
+    if (!message.content.startsWith(PREFIX1)) return;
+    const args = message.content.slice(PREFIX1.length).trim().split(/ +/g);
+    const command = args.shift();
+
+    if (command == "play")
+        distube.play(message, args.join(" "));
+
+    if (["repeat", "loop"].includes(command))
+        distube.setRepeatMode(message, parseInt(args[0]));
+
+    if (command == "stop") {
+        distube.stop(message);
+        message.channel.send("Stopped the music!");
+    }
+
+    if (command == "skip")
+        distube.skip(message);
+
+    if (command == "queue") {
+        let queue = distube.getQueue(message);
+        message.channel.send('Current queue:\n' + queue.songs.map((song, id) =>
+            `**${id + 1}**. ${song.name} - \`${song.formattedDuration}\``
+        ).slice(0, 10).join("\n"));
+    }
+
+    if ([`3d`, `bassboost`, `echo`, `karaoke`, `nightcore`, `vaporwave`].includes(command)) {
+        let filter = distube.setFilter(message, command);
+        message.channel.send("Current queue filter: " + (filter || "Off"));
+    }
+});
+
+// Queue status template
+const status = (queue) => `Volume: \`${queue.volume}%\` | Filter: \`${queue.filter || "Off"}\` | Loop: \`${queue.repeatMode ? queue.repeatMode == 2 ? "All Queue" : "This Song" : "Off"}\` | Autoplay: \`${queue.autoplay ? "On" : "Off"}\``;
+
+// DisTube event listeners, more in the documentation page
+distube
+    .on("playSong", (message, queue, song) => message.channel.send(
+        `Playing \`${song.name}\` - \`${song.formattedDuration}\`\nRequested by: ${song.user}\n${status(queue)}`
+    ))
+    .on("addSong", (message, queue, song) => message.channel.send(
+        `Added ${song.name} - \`${song.formattedDuration}\` to the queue by ${song.user}`
+    ))
+    .on("playList", (message, queue, playlist, song) => message.channel.send(
+        `Play \`${playlist.name}\` playlist (${playlist.songs.length} songs).\nRequested by: ${song.user}\nNow playing \`${song.name}\` - \`${song.formattedDuration}\`\n${status(queue)}`
+    ))
+    .on("addList", (message, queue, playlist) => message.channel.send(
+        `Added \`${playlist.name}\` playlist (${playlist.songs.length} songs) to queue\n${status(queue)}`
+    ))
+    // DisTubeOptions.searchSongs = true
+    .on("searchResult", (message, result) => {
+        let i = 0;
+        message.channel.send(`**Choose an option from below**\n${result.map(song => `**${++i}**. ${song.name} - \`${song.formattedDuration}\``).join("\n")}\n*Enter anything else or wait 60 seconds to cancel*`);
+    })
+    // DisTubeOptions.searchSongs = true
+    .on("searchCancel", (message) => message.channel.send(`Searching canceled`))
+    .on("error", (message, e) => {
+        console.error(e)
+        message.channel.send("An error encountered: " + e);
+    });
+
+//roles
+    client.on('message', async (message) => {
     if (message.content.startsWith(`${PREFIX}giverole`)) {
       if (!message.member.hasPermission('ADMINISTRATOR')) {
         message.channel.send("You do not even have the permission to do so you punk.")
@@ -535,7 +601,8 @@ if (message.content === '!help'){
             {name:'!meme' , value: 'I will send you some meme off reddit', inline: true},
             {name:'WIP...', value: '-----', inline: true},
             {name:'too many other shit I dont wanna list', value: '-----', inline: false},
-            {name:'!hentaihelp for nsfw shit', value: '-----', inline: false}
+            {name:'!hentaihelp for nsfw shit', value: '-----', inline: false},
+            {name:'!musichelp for music commands', value: '-----', inline: false}
         )
         .setImage("https://i.imgur.com/fa65kSx.jpeg");
     message.channel.send(embed);
@@ -578,6 +645,22 @@ else if (message.content === '!hentaihelp'){
             {name:'!nsfwwallpapers', value: 'nsfw wallpaper for pc', inline: true},
         )
         .setImage("https://i.imgur.com/wEW6Phc.jpeg");
+    message.channel.send(embed);
+}
+else if (message.content === '!musichelp'){
+    const embed = new MessageEmbed()
+        .setTitle('I told him this was useless but he insisted to add a music function')
+        .setColor(0xFFFF00)
+        .setDescription('Here are the commands, pretty basic you should know them without this')
+        .addFields(
+            {name:'.play', value: 'search the music and you have to give answer', inline: false},
+            {name:'.repeat/.loop', value: 'i mean, loop music', inline: false},
+            {name:'.stop', value: 'i will gtfo', inline: false},
+            {name:'.skip', value: 'if you hate that song', inline: false},
+            {name:'.queue', value: 'see all songs in queue', inline: false},
+            {name:'my gaming recommandation would be', value: 'search for xqcJAM and leave the autoplay on', inline: false}
+        )
+        .setImage("https://www.wallpaperup.com/uploads/wallpapers/2012/09/26/16548/7d7ed8e95e1e5ace57a15a48e423e266-700.jpg");
     message.channel.send(embed);
 }
 else if (message.content.includes('-p ')||message.content.includes('!p ')||message.content.includes(';;')){
@@ -644,6 +727,10 @@ else if(message.content === '!koyomi'){
 else if(message.content === '!kibo'){
     message.channel.send('<@381646671559262219> 操你妈的小逼崽子');
     message.channel.send('https://www.youtube.com/watch?v=O5MM5_lrZ2U');
+}
+else if(message.content === '!kibo?'){
+    message.channel.send('<@381646671559262219> 这里发生了什么？');
+    message.channel.send('https://cdn.discordapp.com/attachments/850584649041575959/869510325177843732/Red_Dead_Redemption_2_Screenshot_2021.07.26_-_16.53.13.20.png');
 }
 else if(message.content === '!laosiji'){
     message.channel.send("你说话啊BAKA你说话啊！ <@371268250941521924>");
