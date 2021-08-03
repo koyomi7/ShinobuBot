@@ -3,6 +3,7 @@ require("dotenv").config();
 const { Client, GuildMember, MessageEmbed } = require('discord.js');
 const Discord = require('discord.js');
 const { readdirSync, read } = require('fs');
+const fs = require('fs');
 const { join } = require('path');
 const welcome = require("./welcome");
 const fetch = require('node-fetch');
@@ -13,7 +14,7 @@ const akaneko = require('akaneko');
 const DisTube = require('distube');
 //const image = require('./image');
 
-const client = new Discord.Client();
+const client = new Discord.Client({ partials: ["MESSAGE", "CHANNEL", "REACTION" ]});
 const distube = new DisTube(client, { searchSongs: true, emitNewSongOnly: true });
 
 mongoose.connect(process.env.MONGO_SRV,{
@@ -26,6 +27,7 @@ mongoose.connect(process.env.MONGO_SRV,{
     console.log(err);
 });
 
+//direct to command folder
 client.commands = new Discord.Collection();
 const PREFIX = "!";
 const PREFIX1 = ".";
@@ -35,23 +37,20 @@ for (const file of commandFiles) {
     client.commands.set(command.name, command);
 }
 client.on("error", console.error);
-
 client.on("message", async message => {
     if(message.author.bot) return;
     if(message.channel.type === 'dm') return;
     if(message.content.startsWith(PREFIX)) {
         const args = message.content.slice(PREFIX.length).split(/ +/);
         const command = args.shift().toLowerCase();
+        if (command === 'reactionrole') {
+            client.commands.get('reactionrole').execute(message, args, Discord, client);
+        } 
         if(!client.commands.has(command)) return;
-        try {
-            client.commands.get(command).run(client, message, args);
-        }
-        catch (error){
-            console.error(error);
-        }
     }
 })
 
+//music
 client.on("message", async (message) => {
     if (message.author.bot) return;
     if (!message.content.startsWith(PREFIX1)) return;
