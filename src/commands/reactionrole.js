@@ -24,7 +24,7 @@ module.exports = {
             .setTitle('What games do you play!??')
             .setDescription('Let us see if anyone else play the same games!\n\n'
                 + `${warzonePlayer} for warzone\n`
-                + `${overwatchPlayer} for overwatch`
+                + `${overwatchPlayer} for overwatch\n`
                 + `${valorantPlayer} for valorant\n`
                 + `${csgoPlayer} for csgo\n`
                 + `${leaguePlayer} for league of legends\n`
