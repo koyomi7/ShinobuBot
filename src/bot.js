@@ -12,6 +12,7 @@ const Levels = require('discord-xp');
 const randomPuppy = require('random-puppy');
 const akaneko = require('akaneko');
 const DisTube = require('distube');
+const db = require('quick.db');
 //const image = require('./image');
 
 const client = new Discord.Client({ partials: ["MESSAGE", "CHANNEL", "REACTION" ]});
@@ -724,8 +725,12 @@ else if(message.content === '!koyomi'){
     message.reply('Bruh he is a great dude, also he is my master, show some respect will ya?');
 }
 else if(message.content === '!kibo'){
+    db.add('times.kibo', 1);
+    const timesUsed = db.get('times.kibo');
     message.channel.send('<@381646671559262219> 操你妈的小逼崽子');
     message.channel.send('https://www.youtube.com/watch?v=O5MM5_lrZ2U');
+    message.channel.send('Kibo已经被投喂了'+timesUsed+'次!');
+
 }
 else if(message.content === '!kibo?'){
     message.channel.send('<@381646671559262219> 这里发生了什么？');
