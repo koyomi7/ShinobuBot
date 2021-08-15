@@ -729,7 +729,7 @@ else if(message.content === '!kibo'){
     const timesUsed = db.get('times.kibo');
     message.channel.send('<@381646671559262219> 操你妈的小逼崽子');
     message.channel.send('https://www.youtube.com/watch?v=O5MM5_lrZ2U');
-    message.channel.send('Kibo已经被投喂了'+timesUsed+'次!');
+    message.channel.send('今日Kibo已经被投喂了'+timesUsed+'次!');
 
 }
 else if(message.content === '!kibo?'){
