@@ -58,7 +58,7 @@ client.on("message", async (message) => {
     const args = message.content.slice(PREFIX1.length).trim().split(/ +/g);
     const command = args.shift();
 
-    if (command == "play")
+    if (command == "play" || command == "p")
         distube.play(message, args.join(" "));
 
     if (["repeat", "loop"].includes(command))
