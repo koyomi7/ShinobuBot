@@ -1,5 +1,9 @@
 require("dotenv").config();
 
+console.log(process.env.BOT_TOKEN);
+console.log(process.env.TENORKEY);
+console.log(process.env.MONGO_SRV);
+
 const { Client, GuildMember, MessageEmbed } = require('discord.js');
 const Discord = require('discord.js');
 const { readdirSync, read } = require('fs');
@@ -567,7 +571,7 @@ client.on('ready', () => {
 
     client.user.setActivity("the juicer", { 
         type: "STREAMING", 
-        url: "https://www.twitch.tv/xqcow"
+        url: "https://www.twitch.tv/xqc"
     })
 
     welcome(client);
