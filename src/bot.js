@@ -13,8 +13,6 @@ const randomPuppy = require('random-puppy');
 const akaneko = require('akaneko');
 const DisTube = require('distube');
 const db = require('quick.db');
-const HMtai = require('hmtai');
-const hmtai = new HMtai()
 //const image = require('./image');
 
 const client = new Discord.Client({ partials: ["MESSAGE", "CHANNEL", "REACTION" ]});
@@ -157,135 +155,312 @@ client.on('message', async message => {
     const embed = new Discord.MessageEmbed();
     var command = message.content.toLowerCase().slice(PREFIX.length).split(' ')[0];
     if (!message.content.startsWith(PREFIX) || message.author.bot) return;
-    if (!message.channel.nsfw){
-        if(message.author.bot) return;
-        message.reply('At least go to NSFW channel for this, not everyone is hentai like you');
-        return;
+    if (command == 'lewdneko') {
+        if (!message.channel.nsfw){
+            if(message.author.bot) return;
+            message.reply('At least go to NSFW channel for this, not everyone is hentai like you');
+            return;
+        }
+        else{
+            embed.setImage(await akaneko.lewdNeko());
+            return message.channel.send(embed);
+        }
     }
-    if (command == 'anal') {
-        embed.setImage(await hmtai.nsfw.anal());
+    else if (command == 'maid'){
+        if (!message.channel.nsfw){
+            if(message.author.bot) return;
+            message.reply('At least go to NSFW channel for this, not everyone is hentai like you');
+            return;
+        }
+        else{
+            embed.setImage(await akaneko.nsfw.maid());
+            return message.channel.send(embed);
+        }
+    }
+    else if (command == 'ass'){
+        if (!message.channel.nsfw){
+            if(message.author.bot) return;
+            message.reply('At least go to NSFW channel for this, not everyone is hentai like you');
+            return;
+        }
+        else{
+            embed.setImage(await akaneko.nsfw.ass());
+            return message.channel.send(embed);
+        }
+    }
+    else if (command == 'bdsm'){
+        if (!message.channel.nsfw){
+            if(message.author.bot) return;
+            message.reply('At least go to NSFW channel for this, not everyone is hentai like you');
+            return;
+        }
+        else{
+            embed.setImage(await akaneko.nsfw.bdsm());
+            return message.channel.send(embed);
+        }
+    }
+    else if (command == 'blowjob'){
+        if (!message.channel.nsfw){
+            if(message.author.bot) return;
+            message.reply('At least go to NSFW channel for this, not everyone is hentai like you');
+            return;
+        }
+        else{
+            embed.setImage(await akaneko.nsfw.blowjob());
+            return message.channel.send(embed);
+        }
+    }
+    else if (command == 'cum'){
+        if (!message.channel.nsfw){
+            if(message.author.bot) return;
+            message.reply('At least go to NSFW channel for this, not everyone is hentai like you');
+            return;
+        }
+        else{
+            embed.setImage(await akaneko.nsfw.cum());
+            return message.channel.send(embed);
+        }
+    }
+    else if (command == 'doujin'){
+        if (!message.channel.nsfw){
+            if(message.author.bot) return;
+            message.reply('At least go to NSFW channel for this, not everyone is hentai like you');
+            return;
+        }
+        else{
+            embed.setImage(await akaneko.nsfw.doujin());
+            return message.channel.send(embed);
+        }
+    }
+    else if (command == 'feet'){
+        if (!message.channel.nsfw){
+            if(message.author.bot) return;
+            message.reply('At least go to NSFW channel for this, not everyone is hentai like you');
+            return;
+        }
+        else{
+            embed.setImage(await akaneko.nsfw.feet());
+            return message.channel.send(embed);
+        }
+    }
+    else if (command == 'femdom'){
+        if (!message.channel.nsfw){
+            if(message.author.bot) return;
+            message.reply('At least go to NSFW channel for this, not everyone is hentai like you');
+            return;
+        }
+        else{
+            embed.setImage(await akaneko.nsfw.femdom());
+            return message.channel.send(embed);
+        }
+    }
+    else if (command == 'foxgirl'){
+        if (!message.channel.nsfw){
+            if(message.author.bot) return;
+            message.reply('At least go to NSFW channel for this, not everyone is hentai like you');
+            return;
+        }
+        else{
+            embed.setImage(await akaneko.nsfw.foxgirl());
+            return message.channel.send(embed);
+        }
+    }
+    else if (command == 'gifs'){
+        if (!message.channel.nsfw){
+            if(message.author.bot) return;
+            message.reply('At least go to NSFW channel for this, not everyone is hentai like you');
+            return;
+        }
+        else{
+            embed.setImage(await akaneko.nsfw.gifs());
+            return message.channel.send(embed);
+        }
+    }
+    else if (command == 'glasses'){
+        if (!message.channel.nsfw){
+            if(message.author.bot) return;
+            message.reply('At least go to NSFW channel for this, not everyone is hentai like you');
+            return;
+        }
+        else{
+            embed.setImage(await akaneko.nsfw.glasses());
+            return message.channel.send(embed);
+        }
+    }
+    else if (command == 'hentai'){
+        if (!message.channel.nsfw){
+            if(message.author.bot) return;
+            message.reply('At least go to NSFW channel for this, not everyone is hentai like you');
+            return;
+        }
+        else{
+            embed.setImage(await akaneko.nsfw.hentai());
+            return message.channel.send(embed);
+        }
+    }
+    else if (command == 'netorare'){
+        if (!message.channel.nsfw){
+            if(message.author.bot) return;
+            message.reply('At least go to NSFW channel for this, not everyone is hentai like you');
+            return;
+        }
+        else{
+            embed.setImage(await akaneko.nsfw.netorare());
+            return message.channel.send(embed);
+        }  
+    }
+    else if (command == 'masturbation'){
+        if (!message.channel.nsfw){
+            if(message.author.bot) return;
+            message.reply('At least go to NSFW channel for this, not everyone is hentai like you');
+            return;
+        }
+        else{
+            embed.setImage(await akaneko.nsfw.masturbation());
+            return message.channel.send(embed);
+        } 
+    }
+    else if (command == 'orgy'){
+        if (!message.channel.nsfw){
+            if(message.author.bot) return;
+            message.reply('At least go to NSFW channel for this, not everyone is hentai like you');
+            return;
+        }
+        else{
+            embed.setImage(await akaneko.nsfw.orgy());
+            return message.channel.send(embed);
+        }
+    }
+    else if (command == 'panties'){
+        if (!message.channel.nsfw){
+            if(message.author.bot) return;
+            message.reply('At least go to NSFW channel for this, not everyone is hentai like you');
+            return;
+        }
+        else{
+            embed.setImage(await akaneko.nsfw.panties());
+            return message.channel.send(embed);
+        }
+    }
+    else if (command == 'pussy'){
+        if (!message.channel.nsfw){
+            if(message.author.bot) return;
+            message.reply('At least go to NSFW channel for this, not everyone is hentai like you');
+            return;
+        }
+        else{
+            embed.setImage(await akaneko.nsfw.pussy());
+            return message.channel.send(embed);
+        }
+    }
+    else if (command == 'succubus'){
+        if (!message.channel.nsfw){
+            if(message.author.bot) return;
+            message.reply('At least go to NSFW channel for this, not everyone is hentai like you');
+            return;
+        }
+        else{
+            embed.setImage(await akaneko.nsfw.succubus());
+            return message.channel.send(embed);
+        }
+    }
+    else if (command == 'tentacles'){
+        if (!message.channel.nsfw){
+            if(message.author.bot) return;
+            message.reply('At least go to NSFW channel for this, not everyone is hentai like you');
+            return;
+        }
+        else{
+            embed.setImage(await akaneko.nsfw.tentacles());
+            return message.channel.send(embed);
+        }
+    }
+    else if (command == 'thighs'){
+        if (!message.channel.nsfw){
+            if(message.author.bot) return;
+            message.reply('At least go to NSFW channel for this, not everyone is hentai like you');
+            return;
+        }
+        else{
+            embed.setImage(await akaneko.nsfw.thighs());
+            return message.channel.send(embed);
+        }
+    }
+    else if (command == 'uglybastard'){
+        if (!message.channel.nsfw){
+            if(message.author.bot) return;
+            message.reply('At least go to NSFW channel for this, not everyone is hentai like you');
+            return;
+        }
+        else{
+            embed.setImage(await akaneko.nsfw.uglyBastard());
+            return message.channel.send(embed);
+        }
+    }
+    else if (command == 'uniform'){
+        if (!message.channel.nsfw){
+            if(message.author.bot) return;
+            message.reply('At least go to NSFW channel for this, not everyone is hentai like you');
+            return;
+        }
+        else{
+            embed.setImage(await akaneko.nsfw.uniform());
+            return message.channel.send(embed);
+        }
+    }
+    else if (command == 'yuri'){
+        if (!message.channel.nsfw){
+            if(message.author.bot) return;
+            message.reply('At least go to NSFW channel for this, not everyone is hentai like you');
+            return;
+        }
+        else{
+            embed.setImage(await akaneko.nsfw.yuri());
+            return message.channel.send(embed);
+        }
+    }
+    else if (command == 'zettairyouiki'){
+        if (!message.channel.nsfw){
+            if(message.author.bot) return;
+            message.reply('At least go to NSFW channel for this, not everyone is hentai like you');
+            return;
+        }
+        else{
+            embed.setImage(await akaneko.nsfw.zettaiRyouiki());
+            return message.channel.send(embed);
+        } 
+    }
+    else if (command == 'mobilewallpapers'){
+        embed.setImage(await akaneko.mobileWallpapers());
         return message.channel.send(embed);
-        
     }
-    if (command == 'ass') {
-        embed.setImage(await hmtai.nsfw.ass());
+    else if (command == 'wallpapers'){
+        embed.setImage(await akaneko.wallpapers());
         return message.channel.send(embed);
-        
     }
-    if (command == 'bdsm') {
-        embed.setImage(await hmtai.nsfw.bdsm());
-        return message.channel.send(embed);
-        
+    else if (command == 'nsfwmobilewallpapers'){
+        if (!message.channel.nsfw){
+            if(message.author.bot) return;
+            message.reply('At least go to NSFW channel for this, not everyone is hentai like you');
+            return;
+        }
+        else{
+            embed.setImage(await akaneko.nsfw.mobileWallpapers());
+            return message.channel.send(embed);
+        }
     }
-    if (command == 'cum') {
-        embed.setImage(await hmtai.nsfw.cum());
-        return message.channel.send(embed);
-        
+    else if (command == 'nsfwwallpapers'){
+        if (!message.channel.nsfw){
+            if(message.author.bot) return;
+            message.reply('At least go to NSFW channel for this, not everyone is hentai like you');
+            return;
+        }
+        else{
+            embed.setImage(await akaneko.nsfw.wallpapers());
+            return message.channel.send(embed);
+        }
     }
-    if (command == 'creampie') {
-        embed.setImage(await hmtai.nsfw.creampie());
-        return message.channel.send(embed);
-        
-    }
-    if (command == 'femdom') {
-        embed.setImage(await hmtai.nsfw.femdom());
-        return message.channel.send(embed);
-        
-    }
-    if (command == 'incest') {
-        embed.setImage(await hmtai.nsfw.incest());
-        return message.channel.send(embed);
-        
-    }
-    if (command == 'masturbation') {
-        embed.setImage(await hmtai.nsfw.masturbation());
-        return message.channel.send(embed);
-        
-    }
-    if (command == 'ero') {
-        embed.setImage(await hmtai.nsfw.ero());
-        return message.channel.send(embed);
-        
-    }
-    if (command == 'orgy') {
-        embed.setImage(await hmtai.nsfw.orgy());
-        return message.channel.send(embed);
-        
-    }
-    if (command == 'elves') {
-        embed.setImage(await hmtai.nsfw.elves());
-        return message.channel.send(embed);
-        
-    }
-    if (command == 'yuri') {
-        embed.setImage(await hmtai.nsfw.yuri());
-        return message.channel.send(embed);
-        
-    }
-    if (command == 'blowjob') {
-        embed.setImage(await hmtai.nsfw.blowjob());
-        return message.channel.send(embed);
-        
-    }
-    if (command == 'footjob') {
-        embed.setImage(await hmtai.nsfw.footjob());
-        return message.channel.send(embed);
-        
-    }
-    if (command == 'handjob') {
-        embed.setImage(await hmtai.nsfw.handjob());
-        return message.channel.send(embed);
-        
-    }
-    if (command == 'thighs') {
-        embed.setImage(await hmtai.nsfw.thighs());
-        return message.channel.send(embed);
-        
-    }
-    if (command == 'pussy') {
-        embed.setImage(await hmtai.nsfw.pussy());
-        return message.channel.send(embed);
-        
-    }
-    if (command == 'ahegao') {
-        embed.setImage(await hmtai.nsfw.ahegao());
-        return message.channel.send(embed);
-        
-    }
-    if (command == 'uniform') {
-        embed.setImage(await hmtai.nsfw.uniform());
-        return message.channel.send(embed);
-        
-    }
-    if (command == 'gangbang') {
-        embed.setImage(await hmtai.nsfw.gangbang());
-        return message.channel.send(embed);
-        
-    }
-    if (command == 'tentacles') {
-        embed.setImage(await hmtai.nsfw.tentacles());
-        return message.channel.send(embed);
-        
-    }
-    if (command == 'gif') {
-        embed.setImage(await hmtai.nsfw.gif());
-        return message.channel.send(embed);
-        
-    }
-    if (command == 'neko') {
-        embed.setImage(await hmtai.nsfw.nsfwNeko());
-        return message.channel.send(embed);
-        
-    }
-    if (command == 'zettaiRyouiki') {
-        embed.setImage(await hmtai.nsfw.zettaiRyouiki());
-        return message.channel.send(embed);
-        
-    }
-
 });
-
-
 
 function doKissAction() {
     var rand = [
