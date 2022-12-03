@@ -567,7 +567,7 @@ client.on('ready', () => {
 
     client.user.setActivity("the juicer", { 
         type: "STREAMING", 
-        url: "https://www.twitch.tv/xqc"
+        url: "https://www.twitch.tv/xqcow"
     })
 
     welcome(client);

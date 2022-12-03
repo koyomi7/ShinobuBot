@@ -31,13 +31,5 @@
     "serve": "^12.0.0",
     "snekfetch": "^4.0.4",
     "sqlite3": "^5.0.2"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/koyomi7/ShinobuBot.git"
-  },
-  "bugs": {
-    "url": "https://github.com/koyomi7/ShinobuBot/issues"
-  },
-  "homepage": "https://github.com/koyomi7/ShinobuBot#readme"
+  }
 }
