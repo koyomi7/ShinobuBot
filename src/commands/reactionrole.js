@@ -14,9 +14,15 @@ module.exports = {
         const rdrRole = message.guild.roles.cache.find(role => role.name === "RED DEAD REDEMPTION");
         const minecraftRole = message.guild.roles.cache.find(role => role.name === "MINECRAFT");
  
-        const warzonePlayer = '🪂';const overwatchPlayer = '☮️';const valorantPlayer = '🔰';
-        const csgoPlayer = '♿';const leaguePlayer = '♊';const steamPlayer = '🛒';
-        const blizzardPlayer = '❄️';const MHWPlayer = '😺';const RDRPlayer = '🤠';
+        const warzonePlayer = '🪂';
+        const overwatchPlayer = '☮️';
+        const valorantPlayer = '🔰';
+        const csgoPlayer = '♿';
+        const leaguePlayer = '♊';
+        const steamPlayer = '🛒';
+        const blizzardPlayer = '❄️';
+        const MHWPlayer = '😺';
+        const RDRPlayer = '🤠';
         const minecraftPlayer = '📦';
  
         let embed = new Discord.MessageEmbed()
@@ -83,10 +89,10 @@ module.exports = {
                 if (reaction.emoji.name === RDRPlayer) {
                     await reaction.message.guild.members.cache.get(user.id).roles.add(rdrRole);
                 }
-            } else {
+            } 
+            else {
                 return;
             }
- 
         });
  
         client.on('messageReactionRemove', async (reaction, user) => {
@@ -97,7 +103,7 @@ module.exports = {
             if (!reaction.message.guild) return;
  
  
-            if (reaction.message.channel.id == reactionChannel) {
+            if (reaction.message.channel.id == reactionChannel){
                 if (reaction.emoji.name === warzonePlayer) {
                     await reaction.message.guild.members.cache.get(user.id).roles.remove(warzoneRole);
                 }
@@ -128,10 +134,10 @@ module.exports = {
                 if (reaction.emoji.name === RDRPlayer) {
                     await reaction.message.guild.members.cache.get(user.id).roles.remove(rdrRole);
                 }
-            } else {
+            } 
+            else {
                 return;
             }
         });
     }
- 
 }   
