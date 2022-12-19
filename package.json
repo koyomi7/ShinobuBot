@@ -24,6 +24,7 @@
     "dotenv": "^16.0.3",
     "event": "^1.0.0",
     "ffmpeg-static": "^5.1.0",
+    "formidable": "^3.2.5",
     "fs": "^0.0.1-security",
     "hmtai": "^3.2.3",
     "images-scraper": "^6.4.2",
