@@ -1,37 +1,135 @@
 require("dotenv").config();
-
-const { Client, GuildMember, MessageEmbed } = require('discord.js');
+const { Client, GuildMember,  EmbedBuilder , GatewayIntentBits } = require('discord.js');
 const Discord = require('discord.js');
 const { readdirSync, read } = require('fs');
 const fs = require('fs');
 const { join } = require('path');
 const welcome = require("./welcome");
-const fetch = require('node-fetch');
-const mongoose = require('mongoose');
+//const fetch = require('node-fetch');
+//const mongoose = require('mongoose');
 const Levels = require('discord-xp');
 const randomPuppy = require('random-puppy');
 //const akaneko = require('hmtai');
 const HMtai = require("hmtai");
-const DisTube = require('distube');
+const {DisTube} = require('distube');
 const db = require('quick.db');
 //const image = require('./image');
 
-const client = new Discord.Client({ partials: ["MESSAGE", "CHANNEL", "REACTION" ]});
-const distube = new DisTube(client, { searchSongs: true, emitNewSongOnly: true });
+const client = new Discord.Client({
+    intents: [
+    Discord.GatewayIntentBits.Guilds,
+    Discord.GatewayIntentBits.GuildMessages,
+    Discord.GatewayIntentBits.GuildVoiceStates,
+    Discord.GatewayIntentBits.MessageContent
+    ]
+})
+const config = require('./config.json')
+const { SpotifyPlugin } = require('@distube/spotify')
+const { SoundCloudPlugin } = require('@distube/soundcloud')
+const { YtDlpPlugin } = require('@distube/yt-dlp')
 
-mongoose.connect(process.env.MONGO_SRV,{
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false
-}).then(()=>{
-    console.log('Connected to the database');
-}).catch((err)=>{
-    console.log(err);
+client.distube = new DisTube(client, {
+    leaveOnStop: false,
+    emitNewSongOnly: true,
+    emitAddSongWhenCreatingQueue: false,
+    emitAddListWhenCreatingQueue: false,
+    plugins: [
+    new SpotifyPlugin({
+        emitEventsAfterFetching: true
+    }),
+    new SoundCloudPlugin(),
+    new YtDlpPlugin()
+    ]
+})
+
+client.on("messageCreate", (message) => {
+    if (message.content.startsWith("ping")) {
+        message.channel.send("pong!");
+    }
+});
+
+
+//mongoose.connect(process.env.MONGO_SRV,{
+ //   useNewUrlParser: true,
+   // useUnifiedTopology: true,
+    //useFindAndModify: false
+//}).then(()=>{
+  //  console.log('Connected to the database');
+//}).catch((err)=>{
+  //  console.log(err);
+//});
+
+//nsfw part
+const PREFIX = '!';
+const hmtai = new HMtai()
+console.log(`Fresh arts are ready.`)
+client.on('messageCreate', async (message) => {
+    const embed = new EmbedBuilder();
+    var command = message.content.toLowerCase().slice(PREFIX.length).split(' ')[0];
+    if (!message.content.startsWith(PREFIX) || message.author.bot) return;
+    if (!message.channel.nsfw){
+        if(message.author.bot) return;
+        message.reply('At least go to NSFW channel for this, not everyone is pervert like you');
+        return;
+    }
+    if (command == 'lewdneko') {
+        embed.setImage(await hmtai.lewdNeko());
+        return message.channel.send({embeds: [embed] });
+    }
+    else if (command == 'ass'){
+        embed.setImage(await (hmtai.nsfw.ass()));
+        return message.channel.send({embeds: [embed] });
+    }
+    else if (command == 'thighs'){
+        embed.setImage(await (hmtai.nsfw.thighs()));
+        return message.channel.send({embeds: [embed] });
+    }else if (command == 'bdsm'){
+        embed.setImage(await (hmtai.nsfw.bdsm()));
+        return message.channel.send({embeds: [embed] });
+    }else if (command == 'incest'){
+        embed.setImage(await (hmtai.nsfw.incest()));
+        return message.channel.send({embeds: [embed] });
+    }else if (command == 'ero'){
+        embed.setImage(await (hmtai.nsfw.ero()));
+        return message.channel.send({embeds: [embed] });
+    }else if (command == 'orgy'){
+        embed.setImage(await (hmtai.nsfw.orgy()));
+        return message.channel.send({embeds: [embed] });
+    }else if (command == 'elves'){
+        embed.setImage(await (hmtai.nsfw.elves()));
+        return message.channel.send({embeds: [embed] });
+    }else if (command == 'yuri'){
+        embed.setImage(await (hmtai.nsfw.yuri()));
+        return message.channel.send({embeds: [embed] });
+    }else if (command == 'blowjob'){
+        embed.setImage(await (hmtai.nsfw.blowjob()));
+        return message.channel.send({embeds: [embed] });
+    }else if (command == 'footjob'){
+        embed.setImage(await (hmtai.nsfw.foodjob()));
+        return message.channel.send({embeds: [embed] });
+    }else if (command == 'pussy'){
+        embed.setImage(await (hmtai.nsfw.pussy()));
+        return message.channel.send({embeds: [embed] });
+    }else if (command == 'ahegao'){
+        embed.setImage(await (hmtai.nsfw.ahegao()));
+        return message.channel.send({embeds: [embed] });
+    }else if (command == 'gangbang'){
+        embed.setImage(await (hmtai.nsfw.gangbang()));
+        return message.channel.send({embeds: [embed] });
+    }else if (command == 'gifs'){
+        embed.setImage(await (hmtai.nsfw.gif()));
+        return message.channel.send({embeds: [embed] });
+    }else if (command == 'tights'){
+        embed.setImage(await (hmtai.nsfw.zettaiRyouiki()));
+        return message.channel.send({embeds: [embed] });
+    }else if (command == 'cum'){
+        embed.setImage(await (hmtai.nsfw.cum()));
+        return message.channel.send({embeds: [embed] });
+    }
 });
 
 //direct to command folder
 client.commands = new Discord.Collection();
-const PREFIX = "!";
 const PREFIX1 = ".";
 const commandFiles = readdirSync(join(__dirname, "commands")).filter(file => file.endsWith(".js"));
 for (const file of commandFiles) {
@@ -53,238 +151,104 @@ client.on("message", async message => {
 })
 
 //music
-client.on("message", async (message) => {
-    if (message.author.bot) return;
-    if (!message.content.startsWith(PREFIX1)) return;
-    const args = message.content.slice(PREFIX1.length).trim().split(/ +/g);
-    const command = args.shift();
+client.commands = new Discord.Collection()
+client.aliases = new Discord.Collection()
+client.emotes = config.emoji
+const prefix = '.';
+//fs.readdir('./musicCommands', (err, files) => {
+//    if (err) return console.log('WHAT THE FUCK!')
+//    const jsFiles = files.filter(f => f.split('.').pop() === 'js')
+//    if (jsFiles.length <= 0) return console.log('Could not find any commands!')
+//    jsFiles.forEach(file => {
+//        const cmd = require(`./musicCommands/${file}`)
+//        console.log(`Loaded ${file}`)
+//        client.commands.set(cmd.name, cmd)
+//        if (cmd.aliases) cmd.aliases.forEach(alias => client.aliases.set(alias, cmd.name))
+//    })
+//})
 
-    if (command == "play" || command == "p")
-        distube.play(message, args.join(" "));
+client.on('ready', () => {
+  console.log(`${client.user.tag} is ready to play music.`)
+})
 
-    if (["repeat", "loop"].includes(command))
-        distube.setRepeatMode(message, parseInt(args[0]));
-
-    if (command == "stop") {
-        distube.stop(message);
-        message.channel.send("Stopped the music!");
+client.on('messageCreate', async message => {
+    if (message.author.bot || !message.guild) return
+    if (!message.content.startsWith(prefix)) return
+    const args = message.content.slice(prefix.length).trim().split(/ +/g)
+    const command = args.shift().toLowerCase()
+    if (command == "play" || command == "p"){
+        const string = args.join(' ')
+        if (!string) return message.channel.send(`${client.emotes.error} | Please enter a song url or query to search.`)
+            client.distube.play(message.member.voice.channel, string, {
+            member: message.member,
+            textChannel: message.channel,message
+        })
+    }
+    if (!command) return
+    if (command.inVoiceChannel && !message.member.voice.channel) {
+    return message.channel.send(`${client.emotes.error} | You must be in a voice channel!`)
     }
 
-    if (command == "skip")
-        distube.skip(message);
-
-    if (command == "queue") {
-        let queue = distube.getQueue(message);
-        message.channel.send('Current queue:\n' + queue.songs.map((song, id) =>
-            `**${id + 1}**. ${song.name} - \`${song.formattedDuration}\``
-        ).slice(0, 10).join("\n"));
+    if (command == "stop"){
+        client.distube.voices.leave(message);
     }
 
-    if ([`3d`, `bassboost`, `echo`, `karaoke`, `nightcore`, `vaporwave`].includes(command)) {
-        let filter = distube.setFilter(message, command);
-        message.channel.send("Current queue filter: " + (filter || "Off"));
-    }
-});
-
-// Queue status template
-const status = (queue) => `Volume: \`${queue.volume}%\` | Filter: \`${queue.filter || "Off"}\` | Loop: \`${queue.repeatMode ? queue.repeatMode == 2 ? "All Queue" : "This Song" : "Off"}\` | Autoplay: \`${queue.autoplay ? "On" : "Off"}\``;
-
-// DisTube event listeners, more in the documentation page
-distube
-    .on("playSong", (message, queue, song) => message.channel.send(
-        `Playing \`${song.name}\` - \`${song.formattedDuration}\`\nRequested by: ${song.user}\n${status(queue)}`
-    ))
-    .on("addSong", (message, queue, song) => message.channel.send(
-        `Added ${song.name} - \`${song.formattedDuration}\` to the queue by ${song.user}`
-    ))
-    .on("playList", (message, queue, playlist, song) => message.channel.send(
-        `Play \`${playlist.name}\` playlist (${playlist.songs.length} songs).\nRequested by: ${song.user}\nNow playing \`${song.name}\` - \`${song.formattedDuration}\`\n${status(queue)}`
-    ))
-    .on("addList", (message, queue, playlist) => message.channel.send(
-        `Added \`${playlist.name}\` playlist (${playlist.songs.length} songs) to queue\n${status(queue)}`
-    ))
-    // DisTubeOptions.searchSongs = true
-    .on("searchResult", (message, result) => {
-        let i = 0;
-        message.channel.send(`**Choose an option from below**\n${result.map(song => `**${++i}**. ${song.name} - \`${song.formattedDuration}\``).join("\n")}\n*Enter anything else or wait 60 seconds to cancel*`);
-    })
-    // DisTubeOptions.searchSongs = true
-    .on("searchCancel", (message) => message.channel.send(`Searching canceled`))
-    .on("error", (message, e) => {
-        console.error(e)
-        message.channel.send("An error encountered: " + e);
-    });
-
-//roles
-    client.on('message', async (message) => {
-    if (message.content.startsWith(`${PREFIX}giverole`)) {
-      if (!message.member.hasPermission('ADMINISTRATOR')) {
-        message.channel.send("You do not even have the permission to do so you punk.")
-        message.channel.send("https://tenor.com/view/your-not-that-guy-yourenotthatguy-gif-22098263");
-        return;
-    }
-  
-      const user = message.mentions.users.first();
-      const member = message.guild.member(user);
-      const role = message.mentions.roles.first();
-  
-      if (!member) {
-        return message.reply('Tell me who do you want to give role to plz');
-      }
-  
-      if (!role) {
-        return message.reply(`Please mention a role to add to ${member}.`);
-      }
-  
-      try {
-        await member.roles.add(role);
-        if(role == "520022892533252127"){
-            message.channel.send(`有姐姐哇kibo要发情了哇哦哇哦哇`)
+    if (command == "skip"){
+        const queue = client.distube.getQueue(message)
+        if (!queue) return message.channel.send(`${client.emotes.error} | There is nothing in the queue right now!`)
+        try {
+            const song = await queue.skip()
+            message.channel.send(`${client.emotes.success} | Skipped! Now playing:\n${song.name}`)
+        } catch (e) {
+            message.channel.send(`${client.emotes.error} | ${e}`)
         }
-        else{
-            message.reply(`${member} now has the "${role}" role, be thankful pleb`);
+    }
+
+    if (command == "pause"){
+        const queue = client.distube.getQueue(message)
+        if (!queue) return message.channel.send(`${client.emotes.error} | There is nothing in the queue right now!`)
+        if (queue.paused) {
+            queue.resume()
+            return message.channel.send('Resumed the song for you :)')
         }
-      } catch (error) {
-        console.log(error);
-        message.reply(`Role "${role}" is not added to ${member}.\n_${error}_`);
-      }
-    }
-  });
+        queue.pause()
+        message.channel.send('Paused the song for you :)')
+        }
+})
 
-//nsfw part
-const hmtai = new HMtai()
-client.on('message', async message => {
-    const embed = new Discord.MessageEmbed();
-    var command = message.content.toLowerCase().slice(PREFIX.length).split(' ')[0];
-    if (!message.content.startsWith(PREFIX) || message.author.bot) return;
-    if (!message.channel.nsfw){
-        if(message.author.bot) return;
-        message.reply('At least go to NSFW channel for this, not everyone is pervert like you');
-        return;
-    }
-    if (command == 'lewdneko') {
-        embed.setImage(await hmtai.lewdNeko());
-        return message.channel.send(embed);
-    }
-    else if (command == 'maid'){
-        embed.setImage(await hmtai.nsfw.maid());
-        return message.channel.send(embed);
-    }
-    else if (command == 'ass'){
-        embed.setImage(await hmtai.nsfw.ass());
-        return message.channel.send(embed);
-    }
-    else if (command == 'bdsm'){
-        embed.setImage(await hmtai.nsfw.bdsm());
-        return message.channel.send(embed);
-    }
-    else if (command == 'blowjob'){
-        embed.setImage(await hmtai.nsfw.blowjob());
-        return message.channel.send(embed);
-    }
-    else if (command == 'cum'){
-        embed.setImage(await hmtai.nsfw.cum());
-        return message.channel.send(embed);
-    }
-    else if (command == 'doujin'){
-        
-        embed.setImage(await hmtai.nsfw.doujin());
-        return message.channel.send(embed);
-    }
-    else if (command == 'feet'){
-        embed.setImage(await hmtai.nsfw.feet());
-        return message.channel.send(embed);
 
-    }
-    else if (command == 'femdom'){
-        embed.setImage(await hmtai.nsfw.femdom());
-        return message.channel.send(embed);
-    }
-    else if (command == 'foxgirl'){
-        embed.setImage(await hmtai.nsfw.foxgirl());
-        return message.channel.send(embed);
-    }
-    else if (command == 'gifs'){
-        embed.setImage(await hmtai.nsfw.gifs());
-        return message.channel.send(embed);
-    }
-    else if (command == 'glasses'){
-        embed.setImage(await hmtai.nsfw.glasses());
-        return message.channel.send(embed);
-    }
-    else if (command == 'hentai'){
-        embed.setImage(await hmtai.nsfw.hentai());
-        return message.channel.send(embed);
-    }
-    else if (command == 'netorare'){
-        embed.setImage(await hmtai.nsfw.netorare());
-        return message.channel.send(embed);
-    }
-    else if (command == 'masturbation'){
-        embed.setImage(await hmtai.nsfw.masturbation());
-        return message.channel.send(embed);
-    }
-    else if (command == 'orgy'){
-        embed.setImage(await hmtai.nsfw.orgy());
-        return message.channel.send(embed);
-    }
-    else if (command == 'panties'){
-        embed.setImage(await hmtai.nsfw.panties());
-        return message.channel.send(embed);
-    }
-    else if (command == 'pussy'){
-        embed.setImage(await hmtai.nsfw.pussy());
-        return message.channel.send(embed);
-    }
-    else if (command == 'succubus'){
-        embed.setImage(await hmtai.nsfw.succubus());
-        return message.channel.send(embed);
-    }
-    else if (command == 'tentacles'){
-        embed.setImage(await hmtai.nsfw.tentacles());
-        return message.channel.send(embed);
-    }
-    else if (command == 'thighs'){
-        embed.setImage(await hmtai.nsfw.thighs());
-        return message.channel.send(embed);
-    }
-    else if (command == 'uglybastard'){
-        embed.setImage(await hmtai.nsfw.uglyBastard());
-        return message.channel.send(embed);
-    }
-    else if (command == 'uniform'){
-        embed.setImage(await hmtai.nsfw.uniform());
-        return message.channel.send(embed);
-    }
-    else if (command == 'yuri'){
-        embed.setImage(await hmtai.nsfw.yuri());
-        return message.channel.send(embed);
-    }
-    else if (command == 'zettairyouiki'){
-        embed.setImage(await hmtai.nsfw.zettaiRyouiki());
-        return message.channel.send(embed);
-    }
-    else if (command == 'mobilewallpapers'){
-        embed.setImage(await hmtai.mobileWallpapers());
-        return message.channel.send(embed);
-    }
-    else if (command == 'wallpapers'){
-        embed.setImage(await hmtai.wallpapers());
-        return message.channel.send(embed);
-    }
-    else if (command == 'nsfwmobilewallpapers'){
-        embed.setImage(await hmtai.nsfw.mobileWallpapers());
-        return message.channel.send(embed);
-    }
-    else if (command == 'nsfwwallpapers'){
-        embed.setImage(await hmtai.nsfw.wallpapers());
-        return message.channel.send(embed);
-    }
-    else if (command == 'femdom'){
-        embed.setImage(await hmtai.nsfw.femdom());
-        return message.channel.send(embed);
-    }
-});
+
+const status = queue =>
+    `Volume: \`${queue.volume}%\` | Filter: \`${queue.filters.names.join(', ') || 'Off'}\` | Loop: \`${
+    queue.repeatMode ? (queue.repeatMode === 2 ? 'All Queue' : 'This Song') : 'Off'
+    }\` | Autoplay: \`${queue.autoplay ? 'On' : 'Off'}\``
+client.distube.on('playSong', (queue, song) => queue.textChannel.send(
+    `${client.emotes.play} | Playing \`${song.name}\` - \`${song.formattedDuration}\`\nRequested by: ${
+        song.user
+    }\n${status(queue)}`
+    )
+)
+.on('addSong', (queue, song) => queue.textChannel.send(
+    `${client.emotes.success} | Added ${song.name} - \`${song.formattedDuration}\` to the queue by ${song.user}`
+    )
+)
+.on('addList', (queue, playlist) => queue.textChannel.send(
+    `${client.emotes.success} | Added \`${playlist.name}\` playlist (${
+        playlist.songs.length} songs) to queue\n${status(queue)}`
+    )
+)
+.on('error', (channel, e) => {
+    if (channel) channel.send(`${client.emotes.error} | An error encountered: ${e.toString().slice(0, 1974)}`)
+    else console.error(e)
+})
+.on('empty', channel => channel.send('Voice channel is empty! Leaving the channel...')).on('searchNoResult', (message, query) =>
+    message.channel.send(`${client.emotes.error} | No result found for \`${query}\`!`)
+)
+.on('finish', queue => queue.textChannel.send('Finished!'))
+//DisTubeOptions.searchSongs = true
+
+
+
 
 function doKissAction() {
     var rand = [
@@ -389,9 +353,8 @@ function doCringeAction() {
 client.on('ready', () => {
     console.log(`${client.user.tag} has logged in.`);
 
-    client.user.setActivity("the juicer", { 
-        type: "STREAMING", 
-        url: "https://www.twitch.tv/xqc"
+    client.user.setPresence({ 
+        status: 'idle'
     })
 
     welcome(client);
