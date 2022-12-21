@@ -183,6 +183,7 @@ client.on('messageCreate', async message => {
             member: message.member,
             textChannel: message.channel,message
         })
+        console.log(`Played a music.`)
     }
     if (!command) return
     if (command.inVoiceChannel && !message.member.voice.channel) {
